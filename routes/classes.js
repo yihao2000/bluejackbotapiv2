@@ -254,6 +254,54 @@ router.post('/getassistantclasses', async (req, res, next) => {
   });
   
 
+  router.post('/scheduleclassesmessage', async function(req, res, next) {
+    try {
+        const { classes, message, scheduleDate } = req.body;
+
+        // Convert the array of class IDs to a comma-separated string
+        const recipientsString = classes.join(',');
+
+        console.log(recipientsString);
+        console.log(message);
+        console.log(scheduleDate);
+        console.log(req.body);
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                command: "SCHEDULE-ANNOUNCEMENT",
+                params: {
+                    recipients: recipientsString,
+                    msg: message,
+                    timestamp: scheduleDate,
+                }
+            }),
+        };
+
+        fetch(constants.BOTBACKENDURL, requestOptions)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('HTTP error! Status: ' + response.status);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                res.json(data);
+            })
+            .catch((error) => {
+                console.log(error);
+                res.status(500).json({ error: error.message });
+            });
+    } catch (err) {
+        console.log(err);
+        console.error('Error while trying to link class', err.message);
+        res.status(500).json({ error: 'Error while trying to link class' });
+    }
+});
 
 
 
