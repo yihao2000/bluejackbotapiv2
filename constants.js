@@ -59,10 +59,11 @@
 
 
   function getStudentClassGroupByClassTransactionIdXMLBody(transactionID){
-   `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
+   return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
    <soapenv:Header/>
    <soapenv:Body>
       <mes:GetStudentClassGroupByClassTransactionId>
+         <!--Optional:-->
          <mes:classTransactionId>${transactionID}</mes:classTransactionId>
       </mes:GetStudentClassGroupByClassTransactionId>
    </soapenv:Body>
@@ -70,7 +71,7 @@
   }
 
   function getChannels(){
-   return `SELECT * FROM channels c JOIN channel_subscriptions cs ON c.channel_id = cs.channel_id`
+   return `SELECT c.channel_id, c.channel_name, c.channel_description, cs.class_id FROM channels c LEFT JOIN channel_subscriptions cs ON c.channel_id = cs.channel_id`
   }
 
   module.exports = {

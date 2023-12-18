@@ -10,8 +10,9 @@ const db = require('../services/db.js')
 
 router.get('/getchannels', async (req, res, next) => {
     try {
-        console.log(constants.getChannels())
-        const rows = await db.query(constants.getChannels(), null);
+        
+   
+        const rows = await db.query(constants.getChannels());
         
         res.json(rows);
          
@@ -37,6 +38,26 @@ router.get('/getchannels', async (req, res, next) => {
 
   
       res.json({message: "Insert Successful !"});
+       
+    } catch (err) {
+      console.log(err)
+      console.error('Error while getting class link status:', err.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
+  router.post('/removechannelsubscribers', async function(req, res, next) {
+    try {
+      const { channelID, classID } = req.body;
+
+      const query = `
+        DELETE FROM channel_subscriptions WHERE channel_id = '${channelID}' AND class_id = '${classID}'
+      `;
+  
+      await db.query(query); 
+
+  
+      res.json({message: "Delete Successful!"});
        
     } catch (err) {
       console.log(err)

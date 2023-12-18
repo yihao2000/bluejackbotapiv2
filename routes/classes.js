@@ -216,57 +216,13 @@ router.post('/getassistantclasses', async (req, res, next) => {
       res.status(500).json({ error: 'Error while trying to link class' });
     }
   });
-  
-  router.post('/getstudentclass', async function(req, res, next) {
-    try {
-      const { transactionID } = req.body;
 
-  
 
-  
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          command: "SCHEDULE-ANNOUNCEMENT",
-          params: {
-            recipients: recipientsString,
-            msg: message,
-            timestamp: scheduleDate,
-          }
-        }),
-      };
-      
-      // Send the POST request
-      fetch(constants.BOTBACKENDURL, requestOptions)  
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('HTTP error! Status: ' + response.status);
-          }
-          return response.json();
-        })
-        .then((data) => {
-          console.log(data);
-          res.json(data);
-        })
-        .catch((error) => {
-          console.log(error);
-          res.status(500).json({ error: error.message });
-        });
-    } catch (err) {
-      console.log(err);
-      console.error('Error while trying to link class', err.message);
-      res.status(500).json({ error: 'Error while trying to link class' });
-    }
-  });
-
-  router.get('/getstudentclass', async (req, res, next) => {
+  router.post('/getstudentclass', async (req, res, next) => {
     const parser = new XMLParser();
-    
+    const { transactionID } = req.body;
       try {
-          const { transactionID } = req.body;
+          
           const { response } = await soapRequest(constants.SOAPSERVICEURL, constants.soapHeader('Messier/IGeneralApplicationService/GetStudentClassGroupByClassTransactionId'), constants.getStudentClassGroupByClassTransactionIdXMLBody(transactionID)); 
           const { body, statusCode } = response;
   
@@ -276,13 +232,18 @@ router.post('/getassistantclasses', async (req, res, next) => {
               return;
           }
   
+       
   
           const parsedResponse = parser.parse(body, {
               ignoreAttributes: false, 
               attributeNamePrefix: "", 
           });
-          console.log(responseBody);
-          const responseBody = parsedResponse['s:Envelope']['s:Body']['GetSemestersResponse']['GetSemestersResult']['a:ClientSemester'];
+
+    
+      
+          const responseBody = parsedResponse['s:Envelope']['s:Body']['GetStudentClassGroupByClassTransactionIdResponse']['GetStudentClassGroupByClassTransactionIdResult']
+          console.log(responseBody)
+     
           
   
           res.json({ success: true, response: responseBody });
