@@ -18,7 +18,7 @@ router.get('/getchannels', async (req, res, next) => {
          
       } catch (err) {
         console.log(err)
-        console.error('Error while getting linked classes:', err.message);
+        console.error('Error while getting channel:', err.message);
         res.status(500).json({ error: 'Internal Server Error' });
       }
   });

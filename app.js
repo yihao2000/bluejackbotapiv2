@@ -14,6 +14,7 @@ var usersRouter = require('./routes/users');
 var classRouter = require('./routes/classes')
 var semestersRouter = require('./routes/semesters')
 var channelsRouter = require('./routes/channels')
+var messagesRouter = require('./routes/messages')
 
 
 var app = express();
@@ -45,6 +46,7 @@ app.use('/users', usersRouter);
 app.use('/classes', classRouter);
 app.use('/semesters', semestersRouter);
 app.use('/channels', channelsRouter);
+app.use('/messages', messagesRouter);
 
 
 

@@ -21,7 +21,7 @@ router.post('/getassistantclasses', async (req, res, next) => {
           // console.log(response)
           if (statusCode !== 200) {
               console.error('SOAP request failed with status code:', statusCode);
-              res.status(statusCode).json({ success: false, error: 'SOAP reques   t failed' });
+              res.status(statusCode).json({ success: false, error: 'SOAP request failed' });
               return;
           }
   

@@ -74,6 +74,10 @@
    return `SELECT c.channel_id, c.channel_name, c.channel_description, cs.class_id FROM channels c LEFT JOIN channel_subscriptions cs ON c.channel_id = cs.channel_id`
   }
 
+  function getScheduledMessages(){
+   return `SELECT * FROM scheduled_messages`
+  }
+
   module.exports = {
     SOAPSERVICEURL,
     BOTBACKENDURL,
@@ -83,5 +87,6 @@
     getActiveSemesterXMLBody,
     getAssistantClassTransactionByUsernameXMLBody,
     getChannels,
-    getStudentClassGroupByClassTransactionIdXMLBody
+    getStudentClassGroupByClassTransactionIdXMLBody,
+    getScheduledMessages,
   };
