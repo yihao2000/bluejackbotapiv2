@@ -21,5 +21,24 @@ router.get('/getscheduledmessages', async (req, res, next) => {
       }
   });
 
+  router.post('/removescheduledmessage', async (req, res, next) => {
+    try {
+
+      const { id } = req.body;
+
+
+      const query = `
+        DELETE FROM scheduled_messages WHERE id = '${id}'
+      `;
+  
+      await db.query(query); 
+         
+      } catch (err) {
+        console.log(err)
+        console.error('Error while getting linked classes:', err.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+  });
+
 
 module.exports = router;
