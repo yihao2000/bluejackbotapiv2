@@ -176,10 +176,11 @@ router.post('/getassistantclasses', async (req, res, next) => {
   router.post('/announceclassesmessage', async function(req, res, next) {
     try {
       const { classes, message } = req.body;
+   
   
       // Convert the array of classes to a comma-separated string
-      const recipientsString = classes.join(', ');
-  
+      const recipientsString = classes.join(',');
+
       const requestOptions = {
         method: 'POST',
         headers: {

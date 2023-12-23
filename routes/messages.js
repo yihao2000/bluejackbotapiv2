@@ -32,6 +32,8 @@ router.get('/getscheduledmessages', async (req, res, next) => {
       `;
   
       await db.query(query); 
+
+      res.json({message: "Scheduled message successfully removed !"});
          
       } catch (err) {
         console.log(err)
