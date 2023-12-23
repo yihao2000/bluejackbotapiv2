@@ -23,24 +23,31 @@ router.get("/getMessageTemplates", async (req, res, next) => {
 router.post("/createmessagetemplate", async (req, res, next) => {
   try {
     const { name, content, category, data_map, owner_id, is_shared } = req.body;
-    console.log(data_map)
+
+
+    const map2 = new Map(Object.entries(data_map));
     const id = uuidv4();
 
-    // const query = `
-    //   INSERT INTO message_templates VALUES ('${id}','${owner_id}' , '${content}', '${is_shared}', '${name}')
-    // `;
+    const query = `
+      INSERT INTO message_templates VALUES ('${id}','${owner_id}' , '${content}', '${is_shared}', '${name}')
+    `;    
+    let idx = 0;
 
-    // let query2 = `INSERT INTO message_template_data VALUES `;
-    // let idx = 0;
-    // data_map.forEach((value,key) => {
-    //   query2 += `('${id}', '${value}','${key}')`
-    //   if (idx < data_map.length) {
-    //     query+=','
-    //   }
-    //   idx++;
-    // });
 
     await db.query(query);
+
+    if(map2.size > 0){
+      let query2 = `INSERT INTO message_template_data VALUES `;
+      map2.forEach((value,key) => {
+        query2 += `('${id}', '${value}','${key}')`
+        if (idx < map2.length) {
+          query+=','
+        }
+        idx++;
+      });
+      
+      await db.query(query2)
+    }
 
     res.json({ message: "Insert Successful !" });
   } catch (err) {
