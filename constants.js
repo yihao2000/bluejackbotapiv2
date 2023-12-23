@@ -78,6 +78,10 @@
    return `SELECT * FROM scheduled_messages`
   }
 
+  function getTemplateMessages() {
+   return `SELECT * FROM template_messages`
+  }
+
   module.exports = {
     SOAPSERVICEURL,
     BOTBACKENDURL,
@@ -89,4 +93,5 @@
     getChannels,
     getStudentClassGroupByClassTransactionIdXMLBody,
     getScheduledMessages,
+    getTemplateMessages,
   };

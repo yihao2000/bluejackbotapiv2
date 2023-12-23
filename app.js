@@ -1,23 +1,24 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const { Sequelize, DataTypes } = require("sequelize");
 const config = require('./config/config.json')['development'];
 const cors = require('cors')
 
 
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var classRouter = require('./routes/classes')
-var semestersRouter = require('./routes/semesters')
-var channelsRouter = require('./routes/channels')
-var messagesRouter = require('./routes/messages')
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const classRouter = require('./routes/classes')
+const semestersRouter = require('./routes/semesters')
+const channelsRouter = require('./routes/channels')
+const messagesRouter = require('./routes/messages')
+const messageTemplateRouter = require("./routes/message_templates")
 
 
-var app = express();
+const app = express();
 
 
 // view engine setup
@@ -47,6 +48,7 @@ app.use('/classes', classRouter);
 app.use('/semesters', semestersRouter);
 app.use('/channels', channelsRouter);
 app.use('/messages', messagesRouter);
+app.use('/message_templates', messageTemplateRouter);
 
 
 
