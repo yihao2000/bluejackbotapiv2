@@ -42,6 +42,20 @@
  </soapenv:Envelope>`
   }
 
+  function getActiveCourseOutlinesInSemester(messierID, semesterID){
+   return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <mes:GetActiveCourseOutlinesInSemester>
+         <!--Optional:-->
+         <mes:userId>${messierID}</mes:userId>
+         <!--Optional:-->
+         <mes:semesterId>${semesterID}</mes:semesterId>
+      </mes:GetActiveCourseOutlinesInSemester>
+   </soapenv:Body>
+</soapenv:Envelope>`
+  }
+
 
   function getAssistantClassTransactionByUsernameXMLBody(username, semesterID){
    return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
@@ -70,6 +84,19 @@
 </soapenv:Envelope>`
   }
 
+
+  function getClassTransactionByCourseOutlineAndSemesterXMLBody(semesterID, courseOutlineID){
+   return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <mes:GetClassTransactionByCourseOutlineAndSemester>
+         <mes:semesterId>${semesterID}</mes:semesterId>
+         <mes:coid>${courseOutlineID}</mes:coid>
+      </mes:GetClassTransactionByCourseOutlineAndSemester>
+   </soapenv:Body>
+</soapenv:Envelope>`
+  }
+
   function getChannels(){
    return `SELECT c.channel_id, c.channel_name, c.channel_description, cs.class_id FROM channels c LEFT JOIN channel_subscriptions cs ON c.channel_id = cs.channel_id`
   }
@@ -94,4 +121,6 @@
     getStudentClassGroupByClassTransactionIdXMLBody,
     getScheduledMessages,
     getTemplateMessages,
+    getActiveCourseOutlinesInSemester,
+    getClassTransactionByCourseOutlineAndSemesterXMLBody,
   };

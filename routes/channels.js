@@ -66,6 +66,33 @@ router.get('/getchannels', async (req, res, next) => {
     }
   });
 
+  router.post('/addchannelsubscribers', async function(req, res, next) {
+    try {
+      const { channelID, classesID } = req.body;
+  
+      if (!Array.isArray(classesID) || classesID.length === 0) {
+        return res.status(400).json({ error: 'Invalid or empty classesID array' });
+      }
+  
+      const values = classesID.map(classID => `('${channelID}', '${classID}')`).join(', ');
+  
+      const query = `
+        INSERT INTO channel_subscriptions (channel_id, class_id)
+        VALUES ${values};
+      `;
+      console.log(query)
+    
+      await db.query(query); 
+  
+      res.json({ message: "Insert Successful!" });
+    } catch (err) {
+      console.log(err);
+      console.error('Error while adding channel subscribers:', err.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+
 
 
 module.exports = router;

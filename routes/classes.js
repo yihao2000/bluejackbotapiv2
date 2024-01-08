@@ -304,6 +304,41 @@ router.post('/getassistantclasses', async (req, res, next) => {
     }
 });
 
+router.post('/getclasstransactionbycourseoutlineandsemester', async (req, res, next) => {
+  const parser = new XMLParser();
+  const { semesterID, courseOutlineID } = req.body;
+    try {
+        
+        const { response } = await soapRequest(constants.SOAPSERVICEURL, constants.soapHeader('Messier/IGeneralApplicationService/GetClassTransactionByCourseOutlineAndSemester'), constants.getClassTransactionByCourseOutlineAndSemesterXMLBody(semesterID, courseOutlineID)); 
+        const { body, statusCode } = response;
+
+        if (statusCode !== 200) {
+            console.error('SOAP request failed with status code:', statusCode);
+            res.status(statusCode).json({ success: false, error: 'SOAP request failed' });
+            return;
+        }
+
+     
+
+        const parsedResponse = parser.parse(body, {
+            ignoreAttributes: false, 
+            attributeNamePrefix: "", 
+        });
+
+  
+    
+        const responseBody = parsedResponse['s:Envelope']['s:Body']['GetClassTransactionByCourseOutlineAndSemesterResponse']['GetClassTransactionByCourseOutlineAndSemesterResult']['a:ClientClassTransction']
+      
+   
+        
+
+        res.json({ success: true, response: responseBody });
+    } catch (err) {
+        console.error('Error occurred:', err.message);
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
 
 
 module.exports = router;
