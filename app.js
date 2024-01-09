@@ -32,13 +32,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-const db = require("./models/index");
+// const db = require("./models/index");
 
-db.sequelize.authenticate().then(() => {
-   console.log('Connection has been established successfully.');
-}).catch((error) => {
-   console.error('Unable to connect to the database: ', error);
-});
+// db.sequelize.authenticate().then(() => {
+//    console.log('Connection has been established successfully.');
+// }).catch((error) => {
+//    console.error('Unable to connect to the database: ', error);
+// });
 
 
 

@@ -8,11 +8,23 @@ const { v4: uuidv4 } = require("uuid");
 
 const db = require("../services/db.js");
 
+
+
 router.get("/getMessageTemplates", async (req, res, next) => {
   try {
+    const data = [];
     const rows = await db.query(constants.getTemplateMessages());
-
-    res.json(rows);
+    for (let i = 0; i < rows.length; i++) {
+      const r = rows[i];
+      const template_data = await db.query(constants.getTemplateMessageData(r.id));
+      data.push({
+        ...r,
+        data_map: template_data
+      })
+      
+    }
+    console.log(data)
+    res.json(data);
   } catch (err) {
     console.log(err);
     console.error("Error while getting linked classes:", err.message);
