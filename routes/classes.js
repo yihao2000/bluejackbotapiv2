@@ -259,7 +259,7 @@ router.post('/getassistantclasses', async (req, res, next) => {
 
   router.post('/scheduleclassesmessage', async function(req, res, next) {
     try {
-        const { classes, message, scheduleDate } = req.body;
+        const { classes, message, scheduleDate, schedulerUserId } = req.body;
 
         // Convert the array of class IDs to a comma-separated string
         const recipientsString = classes.join(',');
@@ -280,6 +280,7 @@ router.post('/getassistantclasses', async (req, res, next) => {
                     recipients: recipientsString,
                     msg: message,
                     timestamp: scheduleDate,
+                    schedulerUserId: schedulerUserId
                 }
             }),
         };
