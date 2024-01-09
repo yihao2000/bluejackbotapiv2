@@ -71,8 +71,10 @@ router.post('/getassistantclasses', async (req, res, next) => {
 
 
   router.post('/getclassbot', async function(req, res, next) {
+    
     try {
       const { classID } = req.body;
+      console.log(classID)
       // Define the POST request options
       const requestOptions = {
         method: 'POST',
