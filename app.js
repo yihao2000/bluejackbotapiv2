@@ -16,6 +16,7 @@ const semestersRouter = require('./routes/semesters')
 const channelsRouter = require('./routes/channels')
 const messagesRouter = require('./routes/messages')
 const messageTemplateRouter = require("./routes/message_templates")
+const servicesRouter = require('./routes/services')
 
 
 const app = express();
@@ -32,13 +33,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-const db = require("./models/index");
+// const db = require("./models/index");
 
-db.sequelize.authenticate().then(() => {
-   console.log('Connection has been established successfully.');
-}).catch((error) => {
-   console.error('Unable to connect to the database: ', error);
-});
+// db.sequelize.authenticate().then(() => {
+//    console.log('Connection has been established successfully.');
+// }).catch((error) => {
+//    console.error('Unable to connect to the database: ', error);
+// });
 
 
 
@@ -49,6 +50,7 @@ app.use('/semesters', semestersRouter);
 app.use('/channels', channelsRouter);
 app.use('/messages', messagesRouter);
 app.use('/message_templates', messageTemplateRouter);
+app.use('/services', servicesRouter)
 
 
 
@@ -67,5 +69,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+console.log("TEst")
 
 module.exports = app;

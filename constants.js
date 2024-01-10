@@ -109,6 +109,27 @@
    return `SELECT * FROM template_messages`
   }
 
+  function getServices(){
+   return `SELECT * FROM services`
+  }
+
+  function getStates(){
+   return `SELECT * FROM service_states`
+  }
+
+  function getResponses(){
+   return `SELECT * FROM service_responses`
+  }
+
+  function getConditions(){
+   return `SELECT * FROM service_conditions`
+  }
+
+  function getApiCalls(){
+   return `SELECT * FROM service_api_calls`
+  }
+
+
   module.exports = {
     SOAPSERVICEURL,
     BOTBACKENDURL,
@@ -123,4 +144,9 @@
     getTemplateMessages,
     getActiveCourseOutlinesInSemester,
     getClassTransactionByCourseOutlineAndSemesterXMLBody,
+    getServices,
+    getStates,
+    getResponses,
+    getConditions,
+    getApiCalls
   };
