@@ -138,6 +138,12 @@ function getScheduledMessages() {
   return `SELECT * FROM scheduled_messages`;
 }
 
+function getAutoResponses() {
+   return `
+      SELECT * FROM auto_responses
+   `
+}
+
 function getTemplateMessages() {
   return `SELECT 
    template_id as "id",
@@ -162,6 +168,7 @@ module.exports = {
   saltXMLBody,
   logonBPlusTraining,
   loginXMLBody,
+  getAutoResponses,
   getSemestersXMLBody,
   getActiveSemesterXMLBody,
   getAssistantClassTransactionByUsernameXMLBody,
