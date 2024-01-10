@@ -16,6 +16,7 @@ const semestersRouter = require('./routes/semesters')
 const channelsRouter = require('./routes/channels')
 const messagesRouter = require('./routes/messages')
 const messageTemplateRouter = require("./routes/message_templates")
+const autoRespondRouter = require("./routes/auto_respond");
 
 
 const app = express();
@@ -49,6 +50,7 @@ app.use('/semesters', semestersRouter);
 app.use('/channels', channelsRouter);
 app.use('/messages', messagesRouter);
 app.use('/message_templates', messageTemplateRouter);
+app.use('/message_templates', autoRespondRouter);
 
 
 
