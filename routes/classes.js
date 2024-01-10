@@ -12,13 +12,11 @@ router.post('/getassistantclasses', async (req, res, next) => {
     const parser = new XMLParser();
   
     const { username, semesterID } = req.body;
-    console.log(username, semesterID)
 
       try {
           const { response } = await soapRequest(constants.SOAPSERVICEURL, constants.soapHeader('Messier/IGeneralApplicationService/GetClassTransactionByAssistantUsername'), constants.getAssistantClassTransactionByUsernameXMLBody(username, semesterID)); 
           const { body, statusCode } = response;
   
-          // console.log(response)
           if (statusCode !== 200) {
               console.error('SOAP request failed with status code:', statusCode);
               res.status(statusCode).json({ success: false, error: 'SOAP request failed' });
@@ -47,7 +45,6 @@ router.post('/getassistantclasses', async (req, res, next) => {
     
     try {
       const { classIDs } = req.body;
-      console.log(classIDs);
 
       // Create an array of placeholders (?)
       const placeholders = classIDs.map(() => '?').join(', ');
@@ -74,7 +71,6 @@ router.post('/getassistantclasses', async (req, res, next) => {
     
     try {
       const { classID } = req.body;
-      console.log(classID)
       // Define the POST request options
       const requestOptions = {
         method: 'POST',
@@ -140,7 +136,6 @@ router.post('/getassistantclasses', async (req, res, next) => {
           return response.json();
         })
         .then((data) => {
-          console.log(data)
           res.json(data)
         })
         .catch((error) => {
@@ -206,7 +201,6 @@ router.post('/getassistantclasses', async (req, res, next) => {
           return response.json();
         })
         .then((data) => {
-          console.log(data);
           res.json(data);
         })
         .catch((error) => {
@@ -241,13 +235,8 @@ router.post('/getassistantclasses', async (req, res, next) => {
               ignoreAttributes: false, 
               attributeNamePrefix: "", 
           });
-
-    
-      
+   
           const responseBody = parsedResponse['s:Envelope']['s:Body']['GetStudentClassGroupByClassTransactionIdResponse']['GetStudentClassGroupByClassTransactionIdResult']
-          console.log(responseBody)
-     
-          
   
           res.json({ success: true, response: responseBody });
       } catch (err) {
@@ -259,15 +248,9 @@ router.post('/getassistantclasses', async (req, res, next) => {
 
   router.post('/scheduleclassesmessage', async function(req, res, next) {
     try {
-        const { classes, message, scheduleDate, schedulerUserId } = req.body;
+        const { classes, message, scheduleDate, schedulerUserId, repeatOption } = req.body;
 
-        // Convert the array of class IDs to a comma-separated string
         const recipientsString = classes.join(',');
-
-        console.log(recipientsString);
-        console.log(message);
-        console.log(scheduleDate);
-        console.log(req.body);
 
         const requestOptions = {
             method: 'POST',
@@ -280,7 +263,8 @@ router.post('/getassistantclasses', async (req, res, next) => {
                     recipients: recipientsString,
                     msg: message,
                     timestamp: scheduleDate,
-                    schedulerUserId: schedulerUserId
+                    schedulerUserId: schedulerUserId,
+                    repeatOption: repeatOption,
                 }
             }),
         };

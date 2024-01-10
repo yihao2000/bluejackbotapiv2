@@ -15,7 +15,6 @@ const getSalt = async (username) => {
       constants.saltXMLBody(username)
     );
     const { body, statusCode } = res.response;
-    // console.log(body);
 
     if (statusCode !== 200) {
       return {
@@ -32,7 +31,6 @@ const getSalt = async (username) => {
       parsedResponse["s:Envelope"]["s:Body"]["GetSaltResponse"][
         "GetSaltResult"
       ]["a:Salt"];
-    console.log(responseBody);
     return responseBody;
   } catch (error) {
     throw error;
@@ -59,7 +57,7 @@ const logonBPlusTraining = async (username, password, res) => {
         parsedResponse["s:Envelope"]["s:Body"]["LogOnBPlusTrainingResponse"][
           "LogOnBPlusTrainingResult"
         ];
-      console.log(responseBody)
+
       return {
         statusCode: statusCode,
         salt: password,
