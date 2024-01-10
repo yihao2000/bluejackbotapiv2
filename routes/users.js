@@ -59,7 +59,7 @@ const logonBPlusTraining = async (username, password, res) => {
         parsedResponse["s:Envelope"]["s:Body"]["LogOnBPlusTrainingResponse"][
           "LogOnBPlusTrainingResult"
         ];
-      console.log(responseBody)
+      // console.log(responseBody)
       return {
         statusCode: statusCode,
         salt: password,
