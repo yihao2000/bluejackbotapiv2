@@ -26,7 +26,6 @@ router.get('/getactivesemester', async (req, res, next) => {
           });
   
           const responseBody = parsedResponse['s:Envelope']['s:Body']['GetActiveSemesterResponse']['GetActiveSemesterResult']
-        //   console.log(responseBody);
   
           res.json({ success: true, response: responseBody });
       } catch (err) {
@@ -56,7 +55,6 @@ router.get('/getsemesters', async (req, res, next) => {
           });
   
           const responseBody = parsedResponse['s:Envelope']['s:Body']['GetSemestersResponse']['GetSemestersResult']['a:ClientSemester'];
-        //   console.log(responseBody);
   
           res.json({ success: true, response: responseBody });
       } catch (err) {
@@ -86,7 +84,6 @@ router.get('/getsemesters', async (req, res, next) => {
           });
   
           const responseBody = parsedResponse['s:Envelope']['s:Body']['GetActiveCourseOutlinesInSemesterResponse']['GetActiveCourseOutlinesInSemesterResult']['a:ClientCourseOutline']
-          console.log(responseBody);
   
           res.json({ success: true, response: responseBody });
       } catch (err) {

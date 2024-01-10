@@ -8,11 +8,29 @@ const { v4: uuidv4 } = require("uuid");
 
 const db = require("../services/db.js");
 
+
+
 router.get("/getMessageTemplates", async (req, res, next) => {
   try {
+    const data = [];
     const rows = await db.query(constants.getTemplateMessages());
-
-    res.json(rows);
+    for (let i = 0; i < rows.length; i++) {
+      const r = rows[i];
+      const template_data = await db.query(constants.getTemplateMessageData(r.id));
+      const map = new Map();
+      template_data.forEach((t) => {
+        map.set(t.data_name, t.data_type)
+      })
+      // console.log("THE MAP")
+      // console.log(map)
+      data.push({
+        ...r,
+        data_map: Object.fromEntries(map)
+      })
+      
+    }
+    console.log(data)
+    res.json(data);
   } catch (err) {
     console.log(err);
     console.error("Error while getting linked classes:", err.message);
@@ -37,7 +55,7 @@ router.post("/createmessagetemplate", async (req, res, next) => {
     await db.query(query);
 
     if(map2.size > 0){
-      let query2 = `INSERT INTO message_template_data VALUES `;
+      let query2 = `INSERT INTO message_template_data (id, data_type, data_name)VALUES `;
       map2.forEach((value,key) => {
         query2 += `('${id}', '${value}','${key}')`
         if (idx < map2.length) {

@@ -1,15 +1,48 @@
- const SOAPSERVICEURL = 'https://socs1.binus.ac.id/messier/GeneralApplication.svc?wsdl';
- const BOTBACKENDURL = 'https://bluejackbot.jex.ink/server/manualrequest'
- 
- function soapHeader(action){
-    return {
-        'Content-Type': 'text/xml;charset=UTF-8',
-        'soapAction': action, 
-    };
- }
+const SOAPSERVICEURL =
+  "https://socs1.binus.ac.id/messier/GeneralApplication.svc?wsdl";
+const BOTBACKENDURL = "https://bluejackbot.jex.ink/server/manualrequest";
 
- function loginXMLBody(username, password) {
-    return `
+function soapHeader(action) {
+  return {
+    "Content-Type": "text/xml;charset=UTF-8",
+    soapAction: action,
+  };
+}
+
+function saltXMLBody(username) {
+  return `
+   <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
+      <soapenv:Header/>
+      <soapenv:Body>
+         <mes:GetSalt>
+            <!--Optional:-->
+            <mes:userName>${username}</mes:userName>
+         </mes:GetSalt>
+      </soapenv:Body>
+   </soapenv:Envelope>
+   `;
+}
+
+function logonBPlusTraining(username, password) {
+   return `
+   <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
+      <soapenv:Header/>
+      <soapenv:Body>
+         <mes:LogOnBPlusTraining>
+            <!--Optional:-->
+            <mes:userName>${username}</mes:userName>
+            <!--Optional:-->
+            <mes:password>${password}</mes:password>
+            <!--Optional:-->
+            <mes:isPersistent>${false}</mes:isPersistent>
+         </mes:LogOnBPlusTraining>
+      </soapenv:Body>
+   </soapenv:Envelope>
+   `
+}
+
+function loginXMLBody(username, password) {
+  return `
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
     <soapenv:Header/>
     <soapenv:Body>
@@ -22,28 +55,28 @@
     </soapenv:Body>
  </soapenv:Envelope>
     `;
-  }
+}
 
-  function getActiveSemesterXMLBody(){
-   return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
+function getActiveSemesterXMLBody() {
+  return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
    <soapenv:Header/>
    <soapenv:Body>
       <mes:GetActiveSemester/>
    </soapenv:Body>
-</soapenv:Envelope>`
-  }
+</soapenv:Envelope>`;
+}
 
-  function getSemestersXMLBody(){
-    return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
+function getSemestersXMLBody() {
+  return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
     <soapenv:Header/>
     <soapenv:Body>
        <mes:GetSemesters/>
     </soapenv:Body>
- </soapenv:Envelope>`
-  }
+ </soapenv:Envelope>`;
+}
 
-  function getActiveCourseOutlinesInSemester(messierID, semesterID){
-   return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
+function getActiveCourseOutlinesInSemester(messierID, semesterID) {
+  return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
    <soapenv:Header/>
    <soapenv:Body>
       <mes:GetActiveCourseOutlinesInSemester>
@@ -53,12 +86,11 @@
          <mes:semesterId>${semesterID}</mes:semesterId>
       </mes:GetActiveCourseOutlinesInSemester>
    </soapenv:Body>
-</soapenv:Envelope>`
-  }
+</soapenv:Envelope>`;
+}
 
-
-  function getAssistantClassTransactionByUsernameXMLBody(username, semesterID){
-   return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
+function getAssistantClassTransactionByUsernameXMLBody(username, semesterID) {
+  return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
    <soapenv:Header/>
    <soapenv:Body>
       <mes:GetClassTransactionByAssistantUsername>
@@ -68,12 +100,11 @@
          <mes:semesterId>${semesterID}</mes:semesterId>
       </mes:GetClassTransactionByAssistantUsername>
    </soapenv:Body>
-</soapenv:Envelope>`
-  }
+</soapenv:Envelope>`;
+}
 
-
-  function getStudentClassGroupByClassTransactionIdXMLBody(transactionID){
-   return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
+function getStudentClassGroupByClassTransactionIdXMLBody(transactionID) {
+  return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
    <soapenv:Header/>
    <soapenv:Body>
       <mes:GetStudentClassGroupByClassTransactionId>
@@ -81,12 +112,14 @@
          <mes:classTransactionId>${transactionID}</mes:classTransactionId>
       </mes:GetStudentClassGroupByClassTransactionId>
    </soapenv:Body>
-</soapenv:Envelope>`
-  }
+</soapenv:Envelope>`;
+}
 
-
-  function getClassTransactionByCourseOutlineAndSemesterXMLBody(semesterID, courseOutlineID){
-   return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
+function getClassTransactionByCourseOutlineAndSemesterXMLBody(
+  semesterID,
+  courseOutlineID
+) {
+  return `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="Messier">
    <soapenv:Header/>
    <soapenv:Body>
       <mes:GetClassTransactionByCourseOutlineAndSemester>
@@ -94,20 +127,22 @@
          <mes:coid>${courseOutlineID}</mes:coid>
       </mes:GetClassTransactionByCourseOutlineAndSemester>
    </soapenv:Body>
-</soapenv:Envelope>`
-  }
+</soapenv:Envelope>`;
+}
 
-  function getChannels(){
-   return `SELECT c.channel_id, c.channel_name, c.channel_description, cs.class_id FROM channels c LEFT JOIN channel_subscriptions cs ON c.channel_id = cs.channel_id`
-  }
+function getChannels() {
+  return `SELECT c.channel_id, c.channel_name, c.channel_description, cs.class_id FROM channels c LEFT JOIN channel_subscriptions cs ON c.channel_id = cs.channel_id`;
+}
 
-  function getScheduledMessages(){
-   return `SELECT * FROM scheduled_messages`
-  }
+function getScheduledMessages() {
+  return `SELECT * FROM scheduled_messages`;
+}
 
-  function getTemplateMessages() {
-   return `SELECT * FROM template_messages`
-  }
+function getAutoResponses() {
+   return `
+      SELECT * FROM auto_responses
+   `
+}
 
   function getServices(){
    return `SELECT * FROM services`
@@ -137,6 +172,7 @@
     loginXMLBody,
     getSemestersXMLBody,
     getActiveSemesterXMLBody,
+    getAutoResponses,
     getAssistantClassTransactionByUsernameXMLBody,
     getChannels,
     getStudentClassGroupByClassTransactionIdXMLBody,

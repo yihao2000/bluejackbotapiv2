@@ -17,7 +17,6 @@ router.get('/getchannels', async (req, res, next) => {
         res.json(rows);
          
       } catch (err) {
-        console.log(err)
         console.error('Error while getting channel:', err.message);
         res.status(500).json({ error: 'Internal Server Error' });
       }
@@ -40,11 +39,30 @@ router.get('/getchannels', async (req, res, next) => {
       res.json({message: "Insert Successful !"});
        
     } catch (err) {
-      console.log(err)
       console.error('Error while getting class link status:', err.message);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
+  router.post('/deletechannel', async function(req, res, next) {
+    const { channelID } = req.body;
+  
+    try {
+      const result1 = await db.query(`DELETE FROM channel_subscriptions WHERE channel_id = '${channelID}'`);
+  
+      const result2 = await db.query(`DELETE FROM channels WHERE channel_id = '${channelID}'`);
+  
+      console.log('Deletion successful:', result1, result2);
+  
+      res.json({ message: 'Delete Successful!' });
+    } catch (err) {
+      console.log(err);
+  
+      console.error('Error while deleting channel:', err.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } 
+  });
+  
 
   router.post('/removechannelsubscribers', async function(req, res, next) {
     try {
@@ -80,7 +98,6 @@ router.get('/getchannels', async (req, res, next) => {
         INSERT INTO channel_subscriptions (channel_id, class_id)
         VALUES ${values};
       `;
-      console.log(query)
     
       await db.query(query); 
   
