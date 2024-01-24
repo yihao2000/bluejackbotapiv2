@@ -163,26 +163,46 @@ function getAutoResponses() {
   function getApiCalls(){
    return `SELECT * FROM service_api_calls`
   }
+  
+  function getTemplateMessages() {
+   return `SELECT 
+    template_id as "id",
+    template_name as "name",   
+    template_owner_id as "owner_id",
+    template_raw_content as "raw_content",
+    template_is_shared as "is_shared"
+   FROM message_templates
+   `;
+ }
+
+ function getTemplateMessageData(template_id) {
+   return `
+      SELECT * FROM message_template_data WHERE id = '${template_id}'
+   `
+}
 
 
-  module.exports = {
-    SOAPSERVICEURL,
-    BOTBACKENDURL,
-    soapHeader,
-    loginXMLBody,
-    getSemestersXMLBody,
-    getActiveSemesterXMLBody,
-    getAutoResponses,
-    getAssistantClassTransactionByUsernameXMLBody,
-    getChannels,
-    getStudentClassGroupByClassTransactionIdXMLBody,
-    getScheduledMessages,
-    getTemplateMessages,
-    getActiveCourseOutlinesInSemester,
-    getClassTransactionByCourseOutlineAndSemesterXMLBody,
-    getServices,
-    getStates,
-    getResponses,
-    getConditions,
-    getApiCalls
-  };
+ module.exports = {
+   SOAPSERVICEURL,
+   BOTBACKENDURL,
+   soapHeader,
+   saltXMLBody,
+   logonBPlusTraining,
+   loginXMLBody,
+   getSemestersXMLBody,
+   getActiveSemesterXMLBody,
+   getAutoResponses,
+   getAssistantClassTransactionByUsernameXMLBody,
+   getChannels,
+   getStudentClassGroupByClassTransactionIdXMLBody,
+   getScheduledMessages,
+   getTemplateMessages,
+   getTemplateMessageData,
+   getActiveCourseOutlinesInSemester,
+   getClassTransactionByCourseOutlineAndSemesterXMLBody,
+   getServices,
+   getStates,
+   getResponses,
+   getConditions,
+   getApiCalls
+ };
