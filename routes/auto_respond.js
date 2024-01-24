@@ -17,35 +17,87 @@ router.post("/createAutoRespond", async (req, res, next) => {
       trigger_words,
       response_message,
       is_enabled,
+      owner_id
     } = req.body;
+
     const id = uuidv4();
+
+    // Using prepared statements for security
     const query = `
       INSERT INTO auto_responses
-        (id, name, trigger_type, trigger_words, trigger_recipients, response_message, is_enabled)
-      VALUES (
-        '${id}',
-        '${name}',
-        '${trigger_type}' ,
-        '${trigger_words}',
-        '${trigger_recipients}',
-        '${response_message},
-        '${is_enabled}')
+        (id, name, trigger_type, trigger_words, trigger_recipients, response_message, is_enabled, owner_id)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    await db.query(query);
+    const values = [id, name, trigger_type, trigger_words, trigger_recipients, response_message, is_enabled, owner_id];
+
+    await db.query(query, values);
+
     res.json({ message: "Insert Successful !" });
+  } catch (error) {
+    console.error("Error in /createAutoRespond", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.post("/updateAutoRespond", async (req, res, next) => {
+  try {
+    const {
+      id,
+      name,
+      trigger_recipients,
+      trigger_type,
+      trigger_words,
+      response_message,
+      is_enabled,
+      owner_id
+    } = req.body;
+
+    const query = `
+      UPDATE auto_responses
+      SET
+        name = ?,
+        trigger_type = ?,
+        trigger_words = ?,
+        trigger_recipients = ?,
+        response_message = ?,
+        is_enabled = ?,
+        owner_id = ?
+      WHERE id = ?
+    `;
+    const values = [name, trigger_type, trigger_words, trigger_recipients, response_message, is_enabled, owner_id, id];
+
+    await db.query(query, values);
+
+    res.json({ message: "Update Successful !" });
+  } catch (error) {
+    console.error("Error in /updateAutoRespond", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.post("/getAutoResponses", async (req, res, next) => {
+  try {
+    const {
+      owner_id,
+    } = req.body;
+    const rows = await db.query(constants.getAutoResponses(owner_id), [owner_id]);
+    res.json(rows);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-router.get("/getAutoResponses", async (req, res, next) => {
+router.post('/deleteAutoRespond', async function(req, res, next) {
   try {
-    const rows = await db.query(constants.getAutoResponses());
-    res.json(rows);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    const { responseId } = req.body;
+    const query = `DELETE FROM auto_responses WHERE id=?`;
+    await db.query(query, [responseId]);
+
+    res.json({ message: "Auto Response Deleted Successfully!" });
+  } catch (err) {
+    console.error('Error while deleting auto response:', err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

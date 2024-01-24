@@ -52,10 +52,7 @@ app.use('/channels', channelsRouter);
 app.use('/messages', messagesRouter);
 app.use('/message_templates', messageTemplateRouter);
 app.use('/services', servicesRouter)
-app.use('/message_templates', autoRespondRouter);
-
-
-
+app.use('/auto_responses', autoRespondRouter);
 
 app.use(function(req, res, next) {
   next(createError(404));

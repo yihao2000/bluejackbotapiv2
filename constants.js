@@ -138,9 +138,9 @@ function getScheduledMessages() {
   return `SELECT * FROM scheduled_messages`;
 }
 
-function getAutoResponses() {
+function getAutoResponses(owner_id) {
    return `
-      SELECT * FROM auto_responses
+      SELECT * FROM auto_responses WHERE owner_id = ?
    `
 }
 
@@ -164,7 +164,7 @@ function getAutoResponses() {
    return `SELECT * FROM service_api_calls`
   }
 
-  function getTemplateMessages() {
+  function getTemplateMessages(owner_id) {
    return `SELECT 
     template_id as "id",
     template_name as "name",   
@@ -172,7 +172,7 @@ function getAutoResponses() {
     template_raw_content as "raw_content",
     template_is_shared as "is_shared",
     template_category as "category"
-   FROM message_templates
+   FROM message_templates WHERE template_owner_id = ? OR template_is_shared = 1
    `;
  }
  
