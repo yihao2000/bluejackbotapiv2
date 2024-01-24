@@ -135,7 +135,7 @@ function getChannels() {
 }
 
 function getScheduledMessages() {
-  return `SELECT * FROM scheduled_messages`;
+  return `SELECT * FROM scheduled_messages WHERE scheduler_user_id = ? ORDER BY time ASC`;
 }
 
 function getAutoResponses(owner_id) {

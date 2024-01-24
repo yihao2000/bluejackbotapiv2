@@ -8,9 +8,11 @@ const { v4: uuidv4 } = require('uuid');
 
 const db = require('../services/db.js')
 
-router.get('/getscheduledmessages', async (req, res, next) => {
+router.post('/getscheduledmessages', async (req, res, next) => {
     try {
-        const rows = await db.query(constants.getScheduledMessages());
+        const { owner_id } = req.body;
+
+        const rows = await db.query(constants.getScheduledMessages(), [owner_id]);
         
         res.json(rows);
          
