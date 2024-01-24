@@ -85,7 +85,7 @@ router.get('/getapicalls', async (req, res, next) => {
 
 router.post('/createservice', async function(req, res, next) {
   try {
-    const { service_name, is_enabled, initial_state_id } = req.body;
+    const { service_name = '', is_enabled = '', initial_state_id = ''} = req.body;
     const serviceId = uuidv4();
 
     const query = `
@@ -103,11 +103,11 @@ router.post('/createservice', async function(req, res, next) {
 });
 router.post('/createstate', async function(req, res, next) {
   try {
-    const { service_state_name, service_state_message, service_state_type, service_state_data_format, service_state_data_store, service_state_input_options } = req.body;
+    const { service_state_name = '', service_state_message = '', service_state_type = '', service_state_data_format = '', service_state_data_store = '', service_state_input_options = ''} = req.body;
     const serviceStateId = uuidv4();
 
     const query = `
-      INSERT INTO service_states (service_id, service_state_name, service_state_message, service_state_type, service_state_data_format, service_state_data_store, service_state_input_options)
+      INSERT INTO service_states (service_state_id, service_state_name, service_state_message, service_state_type, service_state_data_format, service_state_data_store, service_state_input_options)
       VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 
@@ -122,7 +122,7 @@ router.post('/createstate', async function(req, res, next) {
 
 router.post('/createresponse', async function(req, res, next) {
   try {
-    const { service_response_name, service_response_condition_id, service_response_condition_value, service_response_type, service_response_value, service_response_state_id } = req.body;
+    const { service_response_name = '', service_response_condition_id = '', service_response_condition_value = '', service_response_type = '', service_response_value = '', service_response_state_id = ''} = req.body;
     const serviceResponseId = uuidv4();
 
     const query = `
@@ -142,7 +142,7 @@ router.post('/createresponse', async function(req, res, next) {
 
 router.post('/createcondition', async function(req, res, next) {
   try {
-    const { service_condition_name, service_condition_type, service_condition_value } = req.body;
+    const { service_condition_name = '', service_condition_type = '', service_condition_value = ''} = req.body;
     const serviceConditionId = uuidv4();
 
     const query = `
@@ -162,7 +162,7 @@ router.post('/createcondition', async function(req, res, next) {
 
 router.post('/createapicall', async function(req, res, next) {
   try {
-    const { api_endpoint, http_method, payload } = req.body;
+    const { api_endpoint = '', http_method = '', payload = ''} = req.body;
     const serviceApiCallId = uuidv4();
 
     const query = `
@@ -182,7 +182,7 @@ router.post('/createapicall', async function(req, res, next) {
 
 router.post('/updateservice', async function(req, res, next) {
   try {
-    const { service_id, service_name, is_enabled, initial_state_id } = req.body;
+    const { service_id = '', service_name = '', is_enabled = '', initial_state_id = ''} = req.body;
     const query = `
       UPDATE services SET service_name=?, is_enabled=?, initial_state_id=? WHERE service_id=?
     `;
@@ -197,7 +197,7 @@ router.post('/updateservice', async function(req, res, next) {
 
 router.post('/updatestate', async function(req, res, next) {
   try {
-    const { service_state_id, service_state_name, service_state_message, service_state_type, service_state_data_format, service_state_data_store, service_state_input_options } = req.body;
+    const { service_state_id = '', service_state_name = '', service_state_message = '', service_state_type = '', service_state_data_format = '', service_state_data_store = '', service_state_input_options = ''} = req.body;
     const query = `
       UPDATE service_states SET service_state_name=?, service_state_message=?, service_state_type=?, service_state_data_format=?, service_state_data_store=?, service_state_input_options=? WHERE service_state_id = ?
     `;
@@ -211,7 +211,7 @@ router.post('/updatestate', async function(req, res, next) {
 
 router.post('/updateresponse', async function(req, res, next) {
   try {
-    const { service_response_id, service_response_name, service_response_condition_id, service_response_condition_value, service_response_type, service_response_value, service_response_state_id } = req.body;
+    const { service_response_id = '', service_response_name = '', service_response_condition_id = '', service_response_condition_value = '', service_response_type, service_response_value = '', service_response_state_id = ''} = req.body;
     const query = `
       UPDATE service_responses SET service_response_name=?, service_response_condition_id=?, service_response_condition_value=?, service_response_type=?, service_response_value=?, service_response_state_id=? WHERE service_response_id =?
     `;
@@ -226,7 +226,7 @@ router.post('/updateresponse', async function(req, res, next) {
 
 router.post('/updatecondition', async function(req, res, next) {
   try {
-    const { service_condition_id, service_condition_name, service_condition_type, service_condition_value } = req.body;
+    const { service_condition_id = '', service_condition_name = '', service_condition_type = '', service_condition_value = ''} = req.body;
     const query = `
       UPDATE service_conditions SET service_condition_name=?, service_condition_type=?, service_condition_value=? WHERE service_condition_id =?
     `;
@@ -241,7 +241,7 @@ router.post('/updatecondition', async function(req, res, next) {
 
 router.post('/updateapicall', async function(req, res, next) {
   try {
-    const { service_api_call_id, api_endpoint, http_method, payload } = req.body;
+    const { service_api_call_id = '', api_endpoint = '', http_method = '', payload = ''} = req.body;
     const query = `
       UPDATE service_api_calls SET api_endpoint=?, http_method=?, payload=? WHERE service_api_call_id =?
     `;
