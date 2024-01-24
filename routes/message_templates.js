@@ -47,7 +47,7 @@ router.post("/createmessagetemplate", async (req, res, next) => {
     const id = uuidv4();
 
     const query = `
-      INSERT INTO message_templates VALUES ('${id}','${owner_id}' , '${content}', '${is_shared}', '${name}')
+      INSERT INTO message_templates VALUES ('${id}','${owner_id}' , '${content}', '${is_shared}', '${name}', '${category}')
     `;    
     let idx = 0;
 
@@ -55,7 +55,7 @@ router.post("/createmessagetemplate", async (req, res, next) => {
     await db.query(query);
 
     if(map2.size > 0){
-      let query2 = `INSERT INTO message_template_data (id, data_type, data_name)VALUES `;
+      let query2 = `INSERT INTO message_template_data (id, data_type, data_name) VALUES `;
       map2.forEach((value,key) => {
         query2 += `('${id}', '${value}','${key}')`
         if (idx < map2.length) {

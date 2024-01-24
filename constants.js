@@ -164,11 +164,30 @@ function getAutoResponses() {
    return `SELECT * FROM service_api_calls`
   }
 
+  function getTemplateMessages() {
+   return `SELECT 
+    template_id as "id",
+    template_name as "name",   
+    template_owner_id as "owner_id",
+    template_raw_content as "raw_content",
+    template_is_shared as "is_shared",
+    template_category as "category"
+   FROM message_templates
+   `;
+ }
+ 
+ function getTemplateMessageData(template_id) {
+    return `
+       SELECT * FROM message_template_data WHERE id = '${template_id}'
+    `
+ }
 
   module.exports = {
     SOAPSERVICEURL,
     BOTBACKENDURL,
     soapHeader,
+    saltXMLBody,
+    logonBPlusTraining,
     loginXMLBody,
     getSemestersXMLBody,
     getActiveSemesterXMLBody,
@@ -178,6 +197,7 @@ function getAutoResponses() {
     getStudentClassGroupByClassTransactionIdXMLBody,
     getScheduledMessages,
     getTemplateMessages,
+    getTemplateMessageData,
     getActiveCourseOutlinesInSemester,
     getClassTransactionByCourseOutlineAndSemesterXMLBody,
     getServices,

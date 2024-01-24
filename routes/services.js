@@ -83,4 +83,103 @@ router.get('/getapicalls', async (req, res, next) => {
     return res;
 });
 
+router.post('/createservice', async function(req, res, next) {
+  try {
+    const { service_name, is_enabled, initial_state_id } = req.body;
+
+    const serviceId = uuidv4();
+
+    const query = `
+      INSERT INTO services (service_name, is_enabled, initial_state_id) VALUES ('${serviceId}','${service_name}', '${is_enabled}', '${initial_state_id}')
+    `;
+
+    await db.query(query); 
+
+    res.json({message: "Insert Successful!"});
+     
+  } catch (err) {
+    console.error('Error while getting service status:', err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+router.post('/createstate', async function(req, res, next) {
+  try {
+    const { service_state_name, service_state_message, service_state_type, service_state_data_format, service_state_data_store, service_state_input_options } = req.body;
+
+    const serviceStateId = uuidv4();
+
+    const query = `
+      INSERT INTO services (service_name, is_enabled, initial_state_id) VALUES ('${serviceId}','${service_name}', '${is_enabled}', '${initial_state_id}')
+    `;
+
+    await db.query(query); 
+
+    res.json({message: "Insert Successful!"});
+     
+  } catch (err) {
+    console.error('Error while getting service status:', err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post('/createresponse', async function(req, res, next) {
+  try {
+    const { service_name, is_enabled, initial_state_id } = req.body;
+
+    const serviceId = uuidv4();
+
+    const query = `
+      INSERT INTO services (service_name, is_enabled, initial_state_id) VALUES ('${serviceId}','${service_name}', '${is_enabled}', '${initial_state_id}')
+    `;
+
+    await db.query(query); 
+
+    res.json({message: "Insert Successful!"});
+     
+  } catch (err) {
+    console.error('Error while getting service status:', err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post('/createcondition', async function(req, res, next) {
+  try {
+    const { service_name, is_enabled, initial_state_id } = req.body;
+
+    const serviceId = uuidv4();
+
+    const query = `
+      INSERT INTO services (service_name, is_enabled, initial_state_id) VALUES ('${serviceId}','${service_name}', '${is_enabled}', '${initial_state_id}')
+    `;
+
+    await db.query(query); 
+
+    res.json({message: "Insert Successful!"});
+     
+  } catch (err) {
+    console.error('Error while getting service status:', err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post('/createapicall', async function(req, res, next) {
+  try {
+    const { service_name, is_enabled, initial_state_id } = req.body;
+
+    const serviceId = uuidv4();
+
+    const query = `
+      INSERT INTO services (service_name, is_enabled, initial_state_id) VALUES ('${serviceId}','${service_name}', '${is_enabled}', '${initial_state_id}')
+    `;
+
+    await db.query(query); 
+
+    res.json({message: "Insert Successful!"});
+     
+  } catch (err) {
+    console.error('Error while getting service status:', err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 module.exports = router;

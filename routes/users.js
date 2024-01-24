@@ -8,6 +8,7 @@ const createMessierPassword = require("../utils/generator.js");
 
 const getSalt = async (username) => {
   const parser = new XMLParser();
+  console.log(username)
   try {
     const res = await soapRequest(
       constants.SOAPSERVICEURL,
@@ -17,6 +18,7 @@ const getSalt = async (username) => {
     const { body, statusCode } = res.response;
 
     if (statusCode !== 200) {
+      console.log(body)
       return {
         status: statusCode,
         response: body,
@@ -31,8 +33,11 @@ const getSalt = async (username) => {
       parsedResponse["s:Envelope"]["s:Body"]["GetSaltResponse"][
         "GetSaltResult"
       ]["a:Salt"];
+
+      console.log(responseBody);
     return responseBody;
   } catch (error) {
+    console.log(error)
     throw error;
   }
 };
@@ -83,6 +88,7 @@ router.post("/get-salt", async (req, res, next) => {
   const { username } = req.body;
   try {
     const salt = await getSalt(username);
+    console.log(salt)
     return res.json({
       salt: salt,
     });
