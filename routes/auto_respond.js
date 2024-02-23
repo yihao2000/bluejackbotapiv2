@@ -80,7 +80,7 @@ router.post("/getAutoResponses", async (req, res, next) => {
     const {
       owner_id,
     } = req.body;
-    const rows = await db.query(constants.getAutoResponses(owner_id), [owner_id]);
+    const rows = await db.query(constants.getAutoResponses(), [owner_id]);
     res.json(rows);
   } catch (error) {
     console.log(error);

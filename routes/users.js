@@ -6,6 +6,8 @@ const { SOAPSERVICEURL } = require("../constants.js");
 const constants = require("../constants.js");
 const createMessierPassword = require("../utils/generator.js");
 
+const db = require('../services/db.js')
+
 const getSalt = async (username) => {
   const parser = new XMLParser();
   console.log(username)
@@ -98,6 +100,23 @@ router.post("/get-salt", async (req, res, next) => {
     });
   }
 });
+
+router.post("/authorizeadmin", async (req, res, next) => {
+  const { username } = req.body;
+  try {
+    const row = await db.query(constants.getAdmin(), [username]);
+
+    return res.json({
+      status: row.length > 0
+    });
+  } catch (error) {
+    return res.status(400).json({
+      error: "Fetch failed",
+      message: error.message
+    });
+  }
+});
+
 // Route to fetch all users
 router.post("/login", async (req, res, next) => {
   // const soapRequestHeaders = {

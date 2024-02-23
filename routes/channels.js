@@ -10,8 +10,6 @@ const db = require('../services/db.js')
 
 router.get('/getchannels', async (req, res, next) => {
     try {
-        
-   
         const rows = await db.query(constants.getChannels());
         
         res.json(rows);

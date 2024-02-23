@@ -8,36 +8,47 @@ const { v4: uuidv4 } = require("uuid");
 
 const db = require("../services/db.js");
 
-
-
 router.post("/getMessageTemplates", async (req, res, next) => {
   try {
     const {
       owner_id,
     } = req.body;
-    const data = [];
     const rows = await db.query(constants.getTemplateMessages(), [owner_id]);
-    for (let i = 0; i < rows.length; i++) {
-      const r = rows[i];
-      const template_data = await db.query(constants.getTemplateMessageData(r.id));
-      const map = new Map();
-      template_data.forEach((t) => {
-        map.set(t.data_name, t.data_type)
-      })
-      data.push({
-        ...r,
-        data_map: Object.fromEntries(map)
-      })
-      
-    }
-    console.log(data)
-    res.json(data);
-  } catch (err) {
-    console.log(err);
-    console.error("Error while getting linked classes:", err.message);
+    res.json(rows);
+  } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+// router.post("/getMessageTemplates", async (req, res, next) => {
+//   try {
+//     const {
+//       owner_id,
+//     } = req.body;
+//     const data = [];
+//     const rows = await db.query(constants.getTemplateMessages(), [owner_id]);
+//     for (let i = 0; i < rows.length; i++) {
+//       const r = rows[i];
+//       const template_data = await db.query(constants.getTemplateMessageData(r.id));
+//       const map = new Map();
+//       template_data.forEach((t) => {
+//         map.set(t.data_name, t.data_type)
+//       })
+//       data.push({
+//         ...r,
+//         data_map: Object.fromEntries(map)
+//       })
+      
+//     }
+//     console.log(data)
+//     res.json(data);
+//   } catch (err) {
+//     console.log(err);
+//     console.error("Error while getting linked classes:", err.message);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
 router.post("/createmessagetemplate", async (req, res, next) => {
   try {

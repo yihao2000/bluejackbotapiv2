@@ -130,6 +130,10 @@ function getClassTransactionByCourseOutlineAndSemesterXMLBody(
 </soapenv:Envelope>`;
 }
 
+function getAdmin() {
+   return `SELECT * FROM bluejackbot_admins WHERE admin_username = ?`;
+}
+
 function getChannels() {
   return `SELECT c.channel_id, c.channel_name, c.channel_description, cs.class_id FROM channels c LEFT JOIN channel_subscriptions cs ON c.channel_id = cs.channel_id`;
 }
@@ -138,7 +142,7 @@ function getScheduledMessages() {
   return `SELECT * FROM scheduled_messages WHERE scheduler_user_id = ? ORDER BY time ASC`;
 }
 
-function getAutoResponses(owner_id) {
+function getAutoResponses() {
    return `
       SELECT * FROM auto_responses WHERE owner_id = ?
    `
@@ -164,7 +168,7 @@ function getAutoResponses(owner_id) {
    return `SELECT * FROM service_api_calls`
   }
 
-  function getTemplateMessages(owner_id) {
+  function getTemplateMessages() {
    return `SELECT 
     template_id as "id",
     template_name as "name",   
@@ -176,11 +180,11 @@ function getAutoResponses(owner_id) {
    `;
  }
  
- function getTemplateMessageData(template_id) {
-    return `
-       SELECT * FROM message_template_data WHERE id = '${template_id}'
-    `
- }
+//  function getTemplateMessageData(template_id) {
+//     return `
+//        SELECT * FROM message_template_data WHERE id = '${template_id}'
+//     `
+//  }
 
   module.exports = {
     SOAPSERVICEURL,
@@ -197,10 +201,10 @@ function getAutoResponses(owner_id) {
     getStudentClassGroupByClassTransactionIdXMLBody,
     getScheduledMessages,
     getTemplateMessages,
-    getTemplateMessageData,
     getActiveCourseOutlinesInSemester,
     getClassTransactionByCourseOutlineAndSemesterXMLBody,
     getServices,
+    getAdmin,
     getStates,
     getResponses,
     getConditions,
